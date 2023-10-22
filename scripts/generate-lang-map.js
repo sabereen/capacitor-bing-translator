@@ -1,14 +1,17 @@
-const got = require('got')
-const cheerio = require('cheerio')
-const fs = require('node:fs')
-const path = require('node:path')
+import cheerio from 'cheerio'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const __dirname = fileURLToPath(new URL('./', import.meta.url))
 
 ;(async () => {
-  const { body } = await got('https://bing.com/translator', {
+  const result = await fetch('https://bing.com/translator', {
     headers: {
       'Accept-Language': 'en-US,en'
     }
   })
+  const body = await result.text()
   const $ = cheerio.load(body)
   const options = $('#t_tgtAllLang').children('option')
   const langMap = {}
@@ -18,11 +21,11 @@ const path = require('node:path')
   }
   console.log('✔️ Generated language map', langMap)
   fs.writeFileSync(
-    path.resolve(__dirname, '../src/lang.json'),
-    JSON.stringify(langMap, null, 2),
+    path.resolve(__dirname, '../src/lang-list.js'),
+    `export default JSON.parse(\`${JSON.stringify(langMap, null, 2)}\`)`,
     { charset: 'utf-8' }
   )
 
   // update ts definition
-  require('./generate-dts')
+  await import('./generate-dts.js')
 })()
