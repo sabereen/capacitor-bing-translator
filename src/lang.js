@@ -1,10 +1,7 @@
 /**
  * Generated from https://bing.com/translator
  */
-import { readFileSync } from 'fs'
-
-const langJsonPath = new URL('./lang.json', import.meta.url)
-const languages = JSON.parse(readFileSync(langJsonPath).toString())
+import languages from './lang-list.js'
 
 export const LANGS = {
   'auto-detect': 'Auto-detect',

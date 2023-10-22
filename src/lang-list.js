@@ -1,4 +1,4 @@
-{
+export default JSON.parse(`{
   "af": "Afrikaans",
   "sq": "Albanian",
   "am": "Amharic",
@@ -127,4 +127,4 @@
   "yo": "Yoruba",
   "yua": "Yucatec Maya",
   "zu": "Zulu"
-}
+}`)
