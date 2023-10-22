@@ -1,5 +1,3 @@
-import type { Agents } from 'got';
-
 export interface TranslationResult {
   /**
    * The original text
@@ -57,7 +55,6 @@ export declare function translate(
   correct?: boolean,
   raw?: boolean,
   userAgent?: string,
-  proxyAgents?: Agents
 ): Promise<TranslationResult>;
 
 export declare namespace lang {

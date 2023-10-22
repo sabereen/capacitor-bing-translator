@@ -34,8 +34,6 @@ const MAX_CORRECT_TEXT_LEN = 50
  * }} GlobalConfig
  *
  * @typedef {import('../index').TranslationResult} TranslationResult
- *
- * @typedef {import('got').Agents} GotAgents
  */
 
 /**
@@ -67,11 +65,10 @@ function isTokenExpired() {
  * fetch global config
  *
  * @param {string} userAgent
- * @param {GotAgents} proxyAgents
  *
  * @returns {Promise<GlobalConfig>}
  */
-async function fetchGlobalConfig(userAgent, proxyAgents) {
+async function fetchGlobalConfig(userAgent) {
   // use last subdomain if exists
   let subdomain = globalConfig && globalConfig.subdomain
 
@@ -169,11 +166,10 @@ function objectToUrlEncoded(obj) {
  * @param {boolean} correct <optional> whether to correct the input text. `false` by default.
  * @param {boolean} raw <optional> the result contains raw response if `true`
  * @param {string} userAgent <optional> the expected user agent header
- * @param {GotAgents} proxyAgents <optional> set agents of `got` for proxy
  *
  * @returns {Promise<TranslationResult>}
  */
-export async function translate(text, from, to, correct, raw, userAgent, proxyAgents) {
+export async function translate(text, from, to, correct, raw, userAgent) {
   if (!text || !(text = text.trim())) {
     return
   }
@@ -183,13 +179,13 @@ export async function translate(text, from, to, correct, raw, userAgent, proxyAg
   }
 
   if (!globalConfigPromise) {
-    globalConfigPromise = fetchGlobalConfig(userAgent, proxyAgents)
+    globalConfigPromise = fetchGlobalConfig(userAgent)
   }
 
   await globalConfigPromise
 
   if (isTokenExpired()) {
-    globalConfigPromise = fetchGlobalConfig(userAgent, proxyAgents)
+    globalConfigPromise = fetchGlobalConfig(userAgent)
 
     await globalConfigPromise
   }
