@@ -1,9 +1,14 @@
 /**
  * Generated from https://bing.com/translator
  */
-const LANGS = {
+import { readFileSync } from 'fs'
+
+const langJsonPath = new URL('./lang.json', import.meta.url)
+const languages = JSON.parse(readFileSync(langJsonPath).toString())
+
+export const LANGS = {
   'auto-detect': 'Auto-detect',
-  ...require('./lang.json')
+  ...languages
 }
 
 const LANGS_CORRECTABLE = [
@@ -32,7 +37,7 @@ const LANGS_CORRECTABLE = [
 /**
  * @param {string} lang
  */
-function getLangCode(lang) {
+export function getLangCode(lang) {
   if (!lang || typeof lang !== 'string') {
     return
   }
@@ -56,20 +61,13 @@ function getLangCode(lang) {
 /**
  * @param {string} lang
  */
-function isSupported(lang) {
+export function isSupported(lang) {
   return !!getLangCode(lang)
 }
 
 /**
  * @param {string} lang
  */
-function isCorrectable(lang) {
+export function isCorrectable(lang) {
   return LANGS_CORRECTABLE.includes(getLangCode(lang))
-}
-
-module.exports = {
-  LANGS,
-  getLangCode,
-  isSupported,
-  isCorrectable
 }
