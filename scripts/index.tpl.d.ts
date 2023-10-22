@@ -46,7 +46,6 @@ export interface TranslationResult {
  * @param correct whether to correct the input text. `false` by default.
  * @param raw the result contains raw response if `true`
  * @param userAgent the expected user agent header
- * @param proxyAgents set agents of `got` for proxy
  */
 export declare function translate(
   text: string,
