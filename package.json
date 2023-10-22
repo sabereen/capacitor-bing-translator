@@ -1,7 +1,7 @@
 {
-  "name": "bing-translate-api",
-  "version": "2.9.1",
-  "description": "A simple and free API for Bing Translator for Node.js",
+  "name": "capacitor-bing-translator",
+  "version": "0.1.0",
+  "description": "A simple and free API for Bing Translator for Capacitor.js",
   "main": "src/index.js",
   "typings": "index.d.ts",
   "type": "module",
@@ -16,7 +16,7 @@
     "api",
     "javascript",
     "free",
-    "node",
+    "capacitor",
     "translate"
   ],
   "files": [
@@ -24,16 +24,17 @@
     "test",
     "index.d.ts"
   ],
-  "author": "plainheart",
+  "author": "sabereen",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/plainheart/bing-translate-api.git"
+    "url": "git+https://github.com/sabereen/capacitor-bing-translator.git"
   },
   "bugs": {
-    "url": "https://github.com/plainheart/bing-translate-api/issues"
+    "url": "https://github.com/sabereen/capacitor-bing-translator/issues"
   },
-  "homepage": "https://github.com/plainheart/bing-translate-api#readme",
+  "homepage": "https://github.com/sabereen/capacitor-bing-translator",
+  "dependencies": {},
   "devDependencies": {
     "@capacitor/core": "^5.5.0",
     "cheerio": "^1.0.0-rc.12"
