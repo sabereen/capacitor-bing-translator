@@ -1,4 +1,4 @@
-const { translate } = require('../src/index')
+import { translate } from '../src/index.js'
 
 function printRes(res) {
   console.log(res.text, '----->', res.translation, 'fromLang', res.language.from)

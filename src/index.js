@@ -1,6 +1,12 @@
-const { CapacitorHttp } = require('@capacitor/core')
+import { CapacitorHttp } from '@capacitor/core'
+import { LANGS, getLangCode, isCorrectable, isSupported } from './lang.js'
 
-const lang = require('./lang')
+export const lang = {
+  LANGS,
+  getLangCode,
+  isCorrectable,
+  isSupported
+}
 
 const TRANSLATE_API_ROOT = 'https://{s}bing.com'
 const TRANSLATE_WEBSITE = TRANSLATE_API_ROOT + '/translator'
@@ -167,7 +173,7 @@ function objectToUrlEncoded(obj) {
  *
  * @returns {Promise<TranslationResult>}
  */
-async function translate(text, from, to, correct, raw, userAgent, proxyAgents) {
+export async function translate(text, from, to, correct, raw, userAgent, proxyAgents) {
   if (!text || !(text = text.trim())) {
     return
   }
@@ -286,7 +292,3 @@ async function translate(text, from, to, correct, raw, userAgent, proxyAgents) {
   return res
 }
 
-module.exports = {
-  translate,
-  lang
-}
