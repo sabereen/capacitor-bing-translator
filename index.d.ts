@@ -1,7 +1,5 @@
 // AUTO-GENERATED. SEE scripts/index.tpl.d.ts FOR ORIGINAL TYPINGS
 
-import type { Agents } from 'got';
-
 export interface TranslationResult {
   /**
    * The original text
@@ -50,7 +48,6 @@ export interface TranslationResult {
  * @param correct whether to correct the input text. `false` by default.
  * @param raw the result contains raw response if `true`
  * @param userAgent the expected user agent header
- * @param proxyAgents set agents of `got` for proxy
  */
 export declare function translate(
   text: string,
@@ -59,7 +56,6 @@ export declare function translate(
   correct?: boolean,
   raw?: boolean,
   userAgent?: string,
-  proxyAgents?: Agents
 ): Promise<TranslationResult>;
 
 export declare namespace lang {
@@ -75,6 +71,8 @@ export declare namespace lang {
     'bn': 'Bangla',
     'ba': 'Bashkir',
     'eu': 'Basque',
+    'bho': 'Bhojpuri',
+    'brx': 'Bodo',
     'bs': 'Bosnian',
     'bg': 'Bulgarian',
     'yue': 'Cantonese (Traditional)',
@@ -87,6 +85,7 @@ export declare namespace lang {
     'da': 'Danish',
     'prs': 'Dari',
     'dv': 'Divehi',
+    'doi': 'Dogri',
     'nl': 'Dutch',
     'en': 'English',
     'et': 'Estonian',
@@ -118,6 +117,7 @@ export declare namespace lang {
     'it': 'Italian',
     'ja': 'Japanese',
     'kn': 'Kannada',
+    'ks': 'Kashmiri',
     'kk': 'Kazakh',
     'km': 'Khmer',
     'rw': 'Kinyarwanda',

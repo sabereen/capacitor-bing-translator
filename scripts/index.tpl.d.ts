@@ -1,5 +1,3 @@
-import type { Agents } from 'got';
-
 export interface TranslationResult {
   /**
    * The original text
@@ -48,7 +46,6 @@ export interface TranslationResult {
  * @param correct whether to correct the input text. `false` by default.
  * @param raw the result contains raw response if `true`
  * @param userAgent the expected user agent header
- * @param proxyAgents set agents of `got` for proxy
  */
 export declare function translate(
   text: string,
@@ -57,7 +54,6 @@ export declare function translate(
   correct?: boolean,
   raw?: boolean,
   userAgent?: string,
-  proxyAgents?: Agents
 ): Promise<TranslationResult>;
 
 export declare namespace lang {

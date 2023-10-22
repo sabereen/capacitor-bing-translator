@@ -1,6 +1,9 @@
-const fs = require('node:fs')
-const path = require('node:path')
-const { LANGS } = require('../src/lang')
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { LANGS } from '../src/lang.js'
+
+const __dirname = fileURLToPath(new URL('./', import.meta.url))
 
 // update ts definition
 const typingsTpl = fs.readFileSync(path.resolve(__dirname, './index.tpl.d.ts'), 'utf-8')

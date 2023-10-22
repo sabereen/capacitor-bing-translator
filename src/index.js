@@ -1,4 +1,4 @@
-import got from 'got'
+import { CapacitorHttp } from '@capacitor/core'
 import { LANGS, getLangCode, isCorrectable, isSupported } from './lang.js'
 
 export const lang = {
@@ -13,7 +13,7 @@ const TRANSLATE_WEBSITE = TRANSLATE_API_ROOT + '/translator'
 const TRANSLATE_API = TRANSLATE_API_ROOT + '/ttranslatev3?isVertical=1'
 const TRANSLATE_API_SPELL_CHECK = TRANSLATE_API_ROOT + '/tspellcheckv3?isVertical=1'
 
-const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
+const USER_AGENT = navigator.userAgent
 
 // PENDING: fetch from `params_RichTranslate`?
 const MAX_TEXT_LEN = 1000
@@ -34,8 +34,6 @@ const MAX_CORRECT_TEXT_LEN = 50
  * }} GlobalConfig
  *
  * @typedef {import('../index').TranslationResult} TranslationResult
- *
- * @typedef {import('got').Agents} GotAgents
  */
 
 /**
@@ -67,32 +65,32 @@ function isTokenExpired() {
  * fetch global config
  *
  * @param {string} userAgent
- * @param {GotAgents} proxyAgents
  *
  * @returns {Promise<GlobalConfig>}
  */
-async function fetchGlobalConfig(userAgent, proxyAgents) {
+async function fetchGlobalConfig(userAgent) {
   // use last subdomain if exists
   let subdomain = globalConfig && globalConfig.subdomain
 
   try {
-    const { body, headers, request: { redirects: [redirectUrl] } } = await got(
-      replaceSubdomain(TRANSLATE_WEBSITE, subdomain),
-      {
-        headers: {
-          'user-agent': userAgent || USER_AGENT
-        },
-        agent: proxyAgents
-      }
-    )
+    const requestUrl = replaceSubdomain(TRANSLATE_WEBSITE, subdomain)
+    const { url: finalUrl, data: body, headers } = await CapacitorHttp.get({
+      url: requestUrl,
+      headers: {
+        'user-agent': USER_AGENT,
+      },
+      responseType: 'text',
+    })
+
+    const redirected = requestUrl !== finalUrl
 
     // when fetching for the second time, the subdomain may be unchanged
-    if (redirectUrl) {
-      subdomain = redirectUrl.match(/^https?:\/\/(\w+)\.bing\.com/)[1]
+    if (redirected) {
+      subdomain = finalUrl.match(/^https?:\/\/(\w+)\.bing\.com/)[1]
     }
 
     // PENDING: optional?
-    const cookie = headers['set-cookie'].map(c => c.split(';')[0]).join('; ')
+    const cookie = headers['Set-Cookie']
 
     const IG = body.match(/IG:"([^"]+)"/)[1]
     const IID = body.match(/data-iid="([^"]+)"/)[1]
@@ -120,6 +118,7 @@ async function fetchGlobalConfig(userAgent, proxyAgents) {
       ...requiredFields,
       subdomain,
       cookie,
+      referrer: finalUrl,
       // PENDING: reset count when value is large?
       count: 0
     }
@@ -150,6 +149,14 @@ function makeRequestBody(isSpellCheck, text, fromLang, toLang) {
   return body
 }
 
+function objectToUrlEncoded(obj) {
+  const result = []
+  for (const key in obj) {
+    result.push(`${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
+  }
+  return result.join('&')
+}
+
 /**
  * To translate
  *
@@ -159,11 +166,10 @@ function makeRequestBody(isSpellCheck, text, fromLang, toLang) {
  * @param {boolean} correct <optional> whether to correct the input text. `false` by default.
  * @param {boolean} raw <optional> the result contains raw response if `true`
  * @param {string} userAgent <optional> the expected user agent header
- * @param {GotAgents} proxyAgents <optional> set agents of `got` for proxy
  *
  * @returns {Promise<TranslationResult>}
  */
-export async function translate(text, from, to, correct, raw, userAgent, proxyAgents) {
+export async function translate(text, from, to, correct, raw, userAgent) {
   if (!text || !(text = text.trim())) {
     return
   }
@@ -173,13 +179,13 @@ export async function translate(text, from, to, correct, raw, userAgent, proxyAg
   }
 
   if (!globalConfigPromise) {
-    globalConfigPromise = fetchGlobalConfig(userAgent, proxyAgents)
+    globalConfigPromise = fetchGlobalConfig(userAgent)
   }
 
   await globalConfigPromise
 
   if (isTokenExpired()) {
-    globalConfigPromise = fetchGlobalConfig(userAgent, proxyAgents)
+    globalConfigPromise = fetchGlobalConfig(userAgent)
 
     await globalConfigPromise
   }
@@ -202,16 +208,16 @@ export async function translate(text, from, to, correct, raw, userAgent, proxyAg
 
   const requestHeaders = {
     'user-agent': userAgent || USER_AGENT,
-    referer: replaceSubdomain(TRANSLATE_WEBSITE, globalConfig.subdomain),
-    cookie: globalConfig.cookie
+    referer: globalConfig.referrer,
+    cookie: globalConfig.cookie,
+    'Content-Type': 'application/x-www-form-urlencoded',
   }
 
-  const { body } = await got.post(requestURL, {
+  const { data: body } = await CapacitorHttp.post({
+    url: requestURL,
     headers: requestHeaders,
-    // got will set CONTENT_TYPE as `application/x-www-form-urlencoded`
-    form: requestBody,
+    data: objectToUrlEncoded(requestBody),
     responseType: 'json',
-    agent: proxyAgents
   })
 
   if (body.ShowCaptcha) {
@@ -261,11 +267,11 @@ export async function translate(text, from, to, correct, raw, userAgent, proxyAg
       const requestURL = makeRequestURL(true)
       const requestBody = makeRequestBody(true, text, correctLang)
 
-      const { body } = await got.post(requestURL, {
+      const { data: body } = await CapacitorHttp.post({
+        url: requestURL,
         headers: requestHeaders,
-        form: requestBody,
+        data: objectToUrlEncoded(requestBody),
         responseType: 'json',
-        agent: proxyAgents
       })
 
       res.correctedText = body && body.correctedText
