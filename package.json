@@ -4,6 +4,7 @@
   "description": "A simple and free API for Bing Translator for Capacitor.js",
   "main": "src/index.js",
   "typings": "index.d.ts",
+  "type": "module",
   "scripts": {
     "test": "node test/index.js && node test/lang.js",
     "gen:langmap": "node scripts/generate-lang-map.js",
@@ -33,10 +34,12 @@
     "url": "https://github.com/sabereen/capacitor-bing-translator/issues"
   },
   "homepage": "https://github.com/sabereen/capacitor-bing-translator",
-  "dependencies": {
-    "got": "^11.8.6"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "@capacitor/core": "^5.5.0",
     "cheerio": "^1.0.0-rc.12"
+  },
+  "peerDependencies": {
+    "@capacitor/core": ">=4.0.0"
   }
 }

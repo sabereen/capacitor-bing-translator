@@ -1,4 +1,4 @@
-{
+export default JSON.parse(`{
   "af": "Afrikaans",
   "sq": "Albanian",
   "am": "Amharic",
@@ -9,6 +9,8 @@
   "bn": "Bangla",
   "ba": "Bashkir",
   "eu": "Basque",
+  "bho": "Bhojpuri",
+  "brx": "Bodo",
   "bs": "Bosnian",
   "bg": "Bulgarian",
   "yue": "Cantonese (Traditional)",
@@ -21,6 +23,7 @@
   "da": "Danish",
   "prs": "Dari",
   "dv": "Divehi",
+  "doi": "Dogri",
   "nl": "Dutch",
   "en": "English",
   "et": "Estonian",
@@ -52,6 +55,7 @@
   "it": "Italian",
   "ja": "Japanese",
   "kn": "Kannada",
+  "ks": "Kashmiri",
   "kk": "Kazakh",
   "km": "Khmer",
   "rw": "Kinyarwanda",
@@ -127,4 +131,4 @@
   "yo": "Yoruba",
   "yua": "Yucatec Maya",
   "zu": "Zulu"
-}
+}`)
