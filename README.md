@@ -12,18 +12,23 @@ A **simple** and **free** API for [Bing Translator](https://bing.com/translator)
 npm install bing-translate-api
 ```
 
+## Platforms
+All Capacitor native platforms are supported (**Android** & **iOS**).
+
+Web platform is not supported, because of [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS); Unless you disable CORS in your browser (for example with [this extention](https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino) or using [CLI flags](https://medium.com/@dmadan86/run-chrome-browser-without-cors-by-disabling-web-security-d124ad4dd2cf))
+
 ## Usage
 
 From auto-detected language to English:
 
 ```js
-const { translate } = require('bing-translate-api');
+import { translate } from 'bing-translate-api'
 
 translate('你好', null, 'en').then(res => {
-  console.log(res.translation);
+  console.log(res.translation)
 }).catch(err => {
-  console.error(err);
-});
+  console.error(err)
+})
 ```
 
 Translation result
