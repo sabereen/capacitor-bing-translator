@@ -1,15 +1,15 @@
-# bing-translate-api
-[![NPM version](https://img.shields.io/npm/v/bing-translate-api.svg?style=flat)](https://www.npmjs.org/package/bing-translate-api)
-[![Auto Test](https://github.com/plainheart/bing-translate-api/actions/workflows/autotest.yml/badge.svg)](https://github.com/plainheart/bing-translate-api/actions/workflows/autotest.yml)
-[![NPM Downloads](https://img.shields.io/npm/dm/bing-translate-api.svg)](https://npmcharts.com/compare/bing-translate-api?minimal=true)
-[![License](https://img.shields.io/npm/l/bing-translate-api.svg)](https://github.com/plainheart/bing-translate-api/blob/master/LICENSE)
+# capacitor-bing-translator
+[![NPM version](https://img.shields.io/npm/v/capacitor-bing-translator.svg?style=flat)](https://www.npmjs.org/package/capacitor-bing-translator)
+[![Auto Test](https://github.com/sabereen/capacitor-bing-translator/actions/workflows/autotest.yml/badge.svg)](https://github.com/sabereen/capacitor-bing-translator/actions/workflows/autotest.yml)
+[![NPM Downloads](https://img.shields.io/npm/dm/capacitor-bing-translator.svg)](https://npmcharts.com/compare/capacitor-bing-translator?minimal=true)
+[![License](https://img.shields.io/npm/l/capacitor-bing-translator.svg)](https://github.com/sabereen/capacitor-bing-translator/blob/master/LICENSE)
 
-A **simple** and **free** API for [Bing Translator](https://bing.com/translator) for Node.js.
+A **simple** and **free** API for [Bing Translator](https://bing.com/translator) for Capacitor.js.
 
 ## Install 
 
 ```
-npm install bing-translate-api
+npm install capacitor-bing-translator
 ```
 
 ## Platforms
