@@ -4,7 +4,7 @@
 [![NPM Downloads](https://img.shields.io/npm/dm/capacitor-bing-translator.svg)](https://npmcharts.com/compare/capacitor-bing-translator?minimal=true)
 [![License](https://img.shields.io/npm/l/capacitor-bing-translator.svg)](https://github.com/sabereen/capacitor-bing-translator/blob/master/LICENSE)
 
-A **simple** and **free** API for [Bing Translator](https://bing.com/translator) for Capacitor.js.
+A **simple** and **free** API for [Bing Translator](https://bing.com/translator) for [Capacitor.js](https://capacitorjs.com).
 
 ## Install 
 
@@ -102,7 +102,7 @@ The header value of `user-agent` used in API requests.
 
 Default:
 ```
-Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36
+navigator.userAgent
 ```
 
 ## License
@@ -114,4 +114,39 @@ MIT &copy; 2021-2023 [plainheart](https://github.com/plainheart).
 Great thanks to [Bing Translator](https://bing.com/translator) for providing so excellent translation service.
 
 ## Related projects
-- [Capacitor Bing Translator](https://github.com/sabereen/capacitor-bing-translator) - A fork of this project that works in [Capacitor](https://capacitorjs.com).
+
+### Bing translate api for Node.js
+[Bing Translate API](https://github.com/plainheart/bing-translate-api) - A free Bing translation api for using in Node.js. _Capacitor Bing Translator_ is a fork of that.
+
+### Google translate api for Capacitor
+If you want to use google translate API instead of Bing, use the [`google-translate-api-x`](https://www.npmjs.com/package/google-translate-api-x) package. and use a custom `requestFunction` like this:
+```js
+const result = await translate('سلام دنیا', {
+  to: 'en',
+  autoCorrect: true,
+  forceBatch: false,
+  fallbackBatch: false,
+  async requestFunction(url: string, options: RequestInit) {
+    const result = await CapacitorHttp.request({
+      url,
+      headers: {
+        ...options.headers,
+        'user-agent': navigator.userAgent,
+      },
+      method: options.method,
+      data: options.body || null,
+      webFetchExtra: {
+        credentials: options.credentials,
+      },
+    })
+
+    return new Response(
+      JSON.stringify(result.data),
+      {
+        headers: result.headers,
+        status: result.status,
+      },
+    )
+  },
+})
+```
