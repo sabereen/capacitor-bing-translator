@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input id="text" type="text">
+  <input id="lang" type="lang" value="en">
+  <button id="button">translate</button>
+  <script type="module">
+    import { translate } from '../src/index.js'
+    button.onclick = () => {
+      button.disabled = true
+      translate(text.value, null, lang.value)
+        .then(console.log)
+        .catch(alert)
+        .finally(() => {
+          button.disabled = false
+        })
+    }
+  </script>
+</body>
+</html>
